@@ -34,3 +34,23 @@ print(dbGetQuery(con, "
                  GROUP BY city
                  ORDER BY city ASC;
                  ")) #Selected city for location, INNER JOIN specifies only employees that have a test score, WHERE selects only people not hired as a manager, GROUP by groups by the city/location, and I ordered by ASC so that it matched the table in week13-dplyr.R
+print(dbGetQuery(con, "
+                 SELECT performance_group,
+                 AVG(yrs_employed) AS mean_years,
+                 STDDEV(yrs_employed) AS sd_years
+                 FROM datascience_employees
+                 INNER JOIN datascience_testscores
+                 USING (employee_id)
+                 GROUP BY performance_group;
+                 ")) #AVG to find the mean, STDDEV to find the sd, grouped by performance group
+print(dbGetQuery(con, "
+                 SELECT office_type, employee_id, test_score
+                 FROM datascience_employees
+                 INNER JOIN datascience_testscores
+                 USING (employee_id)
+                 INNER JOIN datascience_offices
+                  ON datascience_employees.city = datascience_offices.office
+                 ORDER BY office_type ASC, test_score DESC;
+                 ")) #joined for both test scores and offices, used ON since offices and office_type have different column names. Ordered by office_type ascending first and then test_score descending
+
+dbDisconnect(con) #this closes the databases connection

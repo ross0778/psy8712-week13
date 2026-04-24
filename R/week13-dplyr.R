@@ -46,7 +46,7 @@ week13_tbl %>%
   print() #n_distinct() gives the number of unique values in a column. This actually gives the same number, 549, so this means there are 549 unique managers
 
 week13_tbl %>% 
-  filter(manager_hire != "Y") %>% #filters for only employees no hired as managers
+  filter(manager_hire == "N") %>% #filters for only employees no hired as managers
   group_by(city) %>% #groups by location
   summarize(n = n()) %>% #counts the number of managers in each city group
   print()
